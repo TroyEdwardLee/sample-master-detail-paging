@@ -1,10 +1,12 @@
 <mvc:View
 	controllerName="sample.master.detail.sample-master-detail-paging.controller.Detail"
 	xmlns="sap.m"
+	xmlns:uxap="sap.uxap"
+	xmlns:layout="sap.ui.layout"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:semantic="sap.m.semantic"
+	xmlns:commons="sap.suite.ui.commons"
 	xmlns:footerbar="sap.ushell.ui.footerbar">
-
 	<semantic:DetailPage
 		id="page"
 		navButtonPress="onNavBack"
@@ -12,51 +14,64 @@
 		title="{i18n>detailTitle}"
 		busy="{detailView>/busy}"
 		busyIndicatorDelay="{detailView>/delay}">
-
 		<semantic:content>
-			<ObjectHeader
-				id="objectHeader"
-				title="{Matguid}"
->
-			</ObjectHeader>
-			<IconTabBar
-				id="iconTabBar"
-				class="sapUiResponsiveContentPadding">
-				<items>
-					<IconTabFilter
-						id="iconTabBarFilter1"
-						icon="sap-icon://hint"
-						tooltip="{i18n>detailIconTabBarInfo}">
-					</IconTabFilter>
-					<IconTabFilter
-						id="iconTabBarFilter2"
-						icon="sap-icon://attachment"
-						tooltip="{i18n>detailIconTabBarAttachments}">
-					</IconTabFilter>
-				</items>
-			</IconTabBar>
-
+			<uxap:ObjectPageHeaderContent>
+				<uxap:content>
+					<layout:VerticalLayout>
+						<ObjectStatus class="sapUiSmallMarginTop sapUiMediumMarginBegin" title="公司代码" text="3595"/>
+						<ObjectStatus class="sapUiMediumMarginBegin" title="月结流程步骤数" text="12"/>
+						<ObjectStatus class="sapUiMediumMarginBegin" title="开始月结日期" text="2021-02-28"/>
+						<ObjectStatus class="sapUiMediumMarginBegin" title="开始月结时间" text="18：10：10"/>
+					</layout:VerticalLayout>
+				</uxap:content>
+			</uxap:ObjectPageHeaderContent>
+			<Panel>
+				<commons:ProcessFlow
+					id="processflow1"
+					scrollable="false"
+					wheelZoomable="false"
+					foldedCorners="true"
+					nodePress="handleNodePress"
+					nodes="{ProcessFlowModel>/nodes}"
+					lanes="{ProcessFlowModel>/lanes}">
+					<commons:nodes>
+						<commons:ProcessFlowNode
+							laneId="{ProcessFlowModel>lane}"
+							nodeId="{ProcessFlowModel>id}"
+							title="{ProcessFlowModel>title}"
+							titleAbbreviation="{ProcessFlowModel>titleAbbreviation}"
+							children="{ProcessFlowModel>children}"
+							state="{ProcessFlowModel>state}"
+							stateText="{ProcessFlowModel>stateText}"
+							texts="{ProcessFlowModel>texts}"
+							highlighted="{ProcessFlowModel>highlighted}"
+							focused="{ProcessFlowModel>focused}" />
+					</commons:nodes>
+					<commons:lanes>
+						<commons:ProcessFlowLaneHeader
+							laneId="{ProcessFlowModel>id}"
+							iconSrc="{ProcessFlowModel>icon}"
+							text="{ProcessFlowModel>label}"
+							position="{ProcessFlowModel>position}" />
+					</commons:lanes>
+				</commons:ProcessFlow>
+			</Panel>
 		</semantic:content>
-
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction
 				id="shareEmail"
 				press="onShareEmailPress"/>
 		</semantic:sendEmailAction>
-
 		<semantic:shareInJamAction>
 			<semantic:ShareInJamAction
 				id="shareInJam"
 				visible="{FLP>/isShareInJamActive}"
 				press="onShareInJamPress"/>
 		</semantic:shareInJamAction>
-
 		<semantic:saveAsTileAction>
 			<footerbar:AddBookmarkButton
 				id="shareTile"
 				title="{detailView>/saveAsTileTitle}"/>
 		</semantic:saveAsTileAction>
-
 	</semantic:DetailPage>
-
 </mvc:View>
