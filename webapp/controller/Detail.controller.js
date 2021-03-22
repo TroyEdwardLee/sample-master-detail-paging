@@ -52,15 +52,14 @@ sap.ui.define([
 				sStateTextPath = oSelectedNode.getBindingInfo("stateText").binding.getContext().getPath() + "/" + oSelectedNode.getBindingPath(
 					"stateText");
 			var sState = this.oView.getModel("ProcessFlowModel").getProperty(sStatePath);
-			this.oView.getModel("detailView").setProperty("/bConfirmState", sState === "Positive" ? true : false);
 			var oResponsivePopover;
 			var oCheckBox = new sap.m.CheckBox(this.createId("idConfirmStateCheckBox"), {
 				text: "确认状态",
-				selected: "{detailView>/bConfirmState}",
 				select: function(oEvent) {
-					this._fnConfirmStateCheckBoxSelect(sStatePath, sStateTextPath);
+					this._fnConfirmStateCheckBoxSelect(oEvent, sStatePath, sStateTextPath);
 				}.bind(this)
 			}).addStyleClass("sapUiTinyMargin");
+			oCheckBox.setSelected(sState === "Positive" ? true : false);
 			var oEndButton = new Button({
 				text: "Action2",
 				type: MobileLibrary.ButtonType.Accept,
@@ -82,14 +81,16 @@ sap.ui.define([
 				oResponsivePopover.setShowCloseButton(true);
 			}
 			oResponsivePopover.openBy(oSelectedNode);
-			sap.m.MessageToast.show("Node " + oEvent.getParameters().getNodeId() + " and BindingPath " + oEvent.getParameters().getBindingInfo(
-				"state").binding.getContext().getPath() + " has been clicked.");
+			// this.oView.getModel("detailView").refresh(true);
+			/*sap.m.MessageToast.show("Node " + oEvent.getParameters().getNodeId() + " and BindingPath " + oEvent.getParameters().getBindingInfo(
+				"state").binding.getContext().getPath() + " has been clicked.");*/
 		},
 
-		_fnConfirmStateCheckBoxSelect: function(sStatePath, sStateTextPath) {
+		_fnConfirmStateCheckBoxSelect: function(oEvent, sStatePath, sStateTextPath) {
 			var sState = "",
 				sStateText = "",
-				bConfirmState = this.oView.getModel("detailView").getProperty("/bConfirmState");
+				oProcessFlow = this.getView().byId("processflow"),
+				bConfirmState = oEvent.getParameter("selected");
 			if (bConfirmState) {
 				sState = "Positive";
 				sStateText = "OK status";
@@ -99,6 +100,7 @@ sap.ui.define([
 			}
 			this.oView.getModel("ProcessFlowModel").setProperty(sStatePath, sState);
 			this.oView.getModel("ProcessFlowModel").setProperty(sStateTextPath, sStateText);
+			oProcessFlow.updateModel();
 		},
 
 		/* =========================================================== */

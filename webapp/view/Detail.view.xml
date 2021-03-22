@@ -27,9 +27,8 @@
 			</uxap:ObjectPageHeaderContent>
 			<Panel>
 				<commons:ProcessFlow
-					id="processflow1"
+					id="processflow"
 					scrollable="false"
-					wheelZoomable="false"
 					foldedCorners="true"
 					nodePress="handleNodePress"
 					nodes="{ProcessFlowModel>/nodes}"
