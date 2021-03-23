@@ -27,11 +27,11 @@
 							<Column importance="High">
 								<Text text="公司代码" />
 							</Column>
-							<Column importance="None">
-								<Text text="期间" />
-							</Column>
 							<Column importance="Medium">
 								<Text text="月结状态" />
+							</Column>
+							<Column importance="None">
+								<Text text="期间" />
 							</Column>
 							<Column importance="High">
 								<Text text="月结进度" />
@@ -41,10 +41,10 @@
 							<ColumnListItem type="Active" press="onSelectionChange">
 								<cells>
 									<Text text="{masterView>OrderID}" />
-									<Text text="{masterView>ShippedDate}" />
 									<ObjectStatus
 										text="进行中"
 										state="Warning" />
+									<Text text="{masterView>ShippedDate}" />
 									<FlexBox height="60px" width="60px" renderType="Bare">
 										<layoutData>
 											<FlexItemData maxHeight="60px" />
