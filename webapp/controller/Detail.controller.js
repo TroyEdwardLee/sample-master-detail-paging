@@ -6,8 +6,9 @@ sap.ui.define([
 	"sap/m/Button",
 	"sap/m/ResponsivePopover",
 	"sap/m/library",
-	"sap/ui/Device"
-], function(BaseController, JSONModel, formatter, Button, ResponsivePopover, MobileLibrary, Device) {
+	"sap/ui/Device",
+	"sap/ui/core/routing/History"
+], function(BaseController, JSONModel, formatter, Button, ResponsivePopover, MobileLibrary, Device, History) {
 	"use strict";
 
 	return BaseController.extend("sample.master.detail.sample-master-detail-paging.controller.Detail", {
@@ -107,6 +108,19 @@ sap.ui.define([
 		/* =========================================================== */
 		/* event handlers                                              */
 		/* =========================================================== */
+		
+		handleNavBack: function() {
+			var oHistory = History.getInstance();
+			var sPreviousHash = oHistory.getPreviousHash();
+
+			if (sPreviousHash !== undefined) {
+				window.history.go(-1);
+			} else {
+				var oRouter = this.getOwnerComponent().getRouter();
+				oRouter.navTo("master", {}, true);
+			}
+			// this.oRouter.navTo("master", {layout: sNextLayout});
+		},
 
 		/**
 		 * Event handler when the share by E-Mail button has been clicked

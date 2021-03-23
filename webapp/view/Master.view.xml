@@ -1,6 +1,7 @@
 <mvc:View controllerName="sample.master.detail.sample-master-detail-paging.controller.Master" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic">
-	<semantic:MasterPage id="page" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="true">
+	xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:micro="sap.suite.ui.microchart"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<semantic:MasterPage id="idMasterPage" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="true" busyIndicatorDelay="0">
 		<semantic:subHeader>
 			<Bar id="headerBar">
 				<contentMiddle>
@@ -14,7 +15,48 @@
 				<content>
 					<PullToRefresh id="pullToRefresh" visible="{device>/support/touch}" refresh="onRefresh"/>
 					<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" {= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}-->
-					<List id="list" items="{ path: 'masterView>/Orders', sorter: { path: 'OrderID', descending: false }, groupHeaderFactory: '.createGroupHeader' }"
+					<Table id="list" items="{
+							path: 'masterView>/Orders',
+							sorter: {
+								path: 'OrderID',
+								descending: false
+							}
+						}" busyIndicatorDelay="{masterView>/delay}"
+						autoPopinMode="true" contextualWidth="Auto"
+						updateFinished="onUpdateFinished">
+						<columns>
+							<Column importance="High">
+								<Text text="公司代码" />
+							</Column>
+							<Column importance="None">
+								<Text text="期间" />
+							</Column>
+							<Column importance="Medium">
+								<Text text="月结状态" />
+							</Column>
+							<Column importance="High">
+								<Text text="月结进度" />
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Active" press="onSelectionChange">
+								<cells>
+									<Text text="{masterView>CustomerID}" />
+									<Text text="{masterView>ShippedDate}" />
+									<ObjectStatus
+										text="进行中"
+										state="Warning" />
+									<FlexBox height="60px" width="60px" renderType="Bare">
+										<layoutData>
+											<FlexItemData maxHeight="60px" />
+										</layoutData>
+										<micro:RadialMicroChart size="Responsive" percentage="45" app:name="radial" />
+									</FlexBox>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+					<!--<List id="list" items="{ path: 'masterView>/Orders', sorter: { path: 'OrderID', descending: false }, groupHeaderFactory: '.createGroupHeader' }"
 						busyIndicatorDelay="{masterView>/delay}" noDataText="{masterView>/noDataText}"
 						mode="MultiSelect" growing="false" growingScrollToLoad="false" growingThreshold="10"
 						updateFinished="onUpdateFinished" selectionChange="onSelectionChange" updateStarted="onBeforeUpdateStarted">
@@ -23,10 +65,10 @@
 								<Title id="filterBarLabel" text="{masterView>/filterBarLabel}"/>
 							</Toolbar>
 						</infoToolbar>
-						<items><!--{= ${device>/system/phone} ? 'Active' : 'Inactive'}-->
+						<items>
 							<ObjectListItem type="Active" press="onSelectionChange" title="{masterView>OrderID}"></ObjectListItem>
 						</items>
-					</List>
+					</List>-->
 				</content>
 				<footer>
 					<OverflowToolbar>

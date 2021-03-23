@@ -77,6 +77,13 @@ sap.ui.define([
 			onUpdateFinished : function (oEvent) {
 				// update the master list object counter after new data is loaded
 				this._updateListItemCount(oEvent.getParameter("total"));
+				if (oEvent.getSource().getItems().length) {
+					oEvent.getSource().getItems()[0].firePress();
+					/*var sObjectId = oEvent.getSource().getItems()[0].getModel("masterView").getProperty(oEvent.getSource().getItems()[0].getBindingContextPath() + "/OrderID");
+					this.getRouter().navTo("object", {objectId : sObjectId}, true);*/
+				} else {
+					this.getRouter().getTargets().display("detailNoObjectsAvailable");
+				}
 				// hide pull to refresh if necessary
 				this.byId("pullToRefresh").hide();
 			},
@@ -135,7 +142,7 @@ sap.ui.define([
 			 */
 			onSelectionChange : function (oEvent) {
 				// get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
-				this._showDetail(oEvent.getParameter("listItem") || oEvent.getSource());
+				this._showDetail(oEvent.getSource());
 			},
 
 			/**
@@ -210,7 +217,7 @@ sap.ui.define([
 			 * @private
 			 */
 			_onMasterMatched :  function() {
-				this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.then(
+				/*this.getOwnerComponent().oListSelector.oWhenListLoadingIsDone.then(
 					function (mParams) {
 						if (mParams.list.getMode() === "None") {
 							return;
@@ -224,7 +231,7 @@ sap.ui.define([
 						}
 						this.getRouter().getTargets().display("detailNoObjectsAvailable");
 					}.bind(this)
-				);
+				);*/
 			},
 			
 			_fetchOrdersCount: function() {
@@ -241,6 +248,7 @@ sap.ui.define([
 			},
 			
 			_fetchMasterData: function() {
+				this.oView.byId("idMasterPage").setBusy(true);
 				this.viewModel.setProperty("/Orders", []);
 				var sUrlParam = "$skip=" + this.viewModel.getProperty("/iSkip") + "&$top=" + this.viewModel.getProperty("/iTop");
 				this.oDataModel.read("/Orders", {
@@ -248,10 +256,12 @@ sap.ui.define([
 					groupId: "OrdersData",
 					success: function(oData) {
 						this.viewModel.setProperty("/Orders", oData.results);
+						this.oView.byId("idMasterPage").setBusy(false);
 					}.bind(this),
 					error: function(error) {
+						this.oView.byId("idMasterPage").setBusy(false);
 						return false;
-					}
+					}.bind(this)
 				});
 			},
 			
@@ -291,9 +301,10 @@ sap.ui.define([
 			 * @private
 			 */
 			_showDetail : function (oItem) {
+				var sOrderID = oItem.getModel("masterView").getProperty(oItem.getBindingContextPath() + "/OrderID");
 				var bReplace = !Device.system.phone;
 				this.getRouter().navTo("object", {
-					objectId : oItem.getTitle()
+					objectId : sOrderID
 				}, bReplace);
 			},
 

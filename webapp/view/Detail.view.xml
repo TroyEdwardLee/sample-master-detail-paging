@@ -9,52 +9,74 @@
 	xmlns:footerbar="sap.ushell.ui.footerbar">
 	<semantic:DetailPage
 		id="page"
-		navButtonPress="onNavBack"
-		showNavButton="{device>/system/phone}"
+		navButtonPress="handleNavBack"
+		showNavButton="{=${device>/system/phone}}"
 		title="{i18n>detailTitle}"
 		busy="{detailView>/busy}"
 		busyIndicatorDelay="{detailView>/delay}">
+		<!--<semantic:customHeaderContent>
+			<Button icon="sap-icon://decline" tooltip="Close" press="handleNavBack"
+				visible="{=${device>/system/phone}}"/>
+		</semantic:customHeaderContent>-->
 		<semantic:content>
-			<uxap:ObjectPageHeaderContent>
-				<uxap:content>
-					<layout:VerticalLayout>
-						<ObjectStatus class="sapUiSmallMarginTop sapUiMediumMarginBegin" title="公司代码" text="3595"/>
-						<ObjectStatus class="sapUiMediumMarginBegin" title="月结流程步骤数" text="12"/>
-						<ObjectStatus class="sapUiMediumMarginBegin" title="开始月结日期" text="2021-02-28"/>
-						<ObjectStatus class="sapUiMediumMarginBegin" title="开始月结时间" text="18：10：10"/>
-					</layout:VerticalLayout>
-				</uxap:content>
-			</uxap:ObjectPageHeaderContent>
-			<Panel>
-				<commons:ProcessFlow
-					id="processflow"
-					scrollable="false"
-					foldedCorners="true"
-					nodePress="handleNodePress"
-					nodes="{ProcessFlowModel>/nodes}"
-					lanes="{ProcessFlowModel>/lanes}">
-					<commons:nodes>
-						<commons:ProcessFlowNode
-							laneId="{ProcessFlowModel>lane}"
-							nodeId="{ProcessFlowModel>id}"
-							title="{ProcessFlowModel>title}"
-							titleAbbreviation="{ProcessFlowModel>titleAbbreviation}"
-							children="{ProcessFlowModel>children}"
-							state="{ProcessFlowModel>state}"
-							stateText="{ProcessFlowModel>stateText}"
-							texts="{ProcessFlowModel>texts}"
-							highlighted="{ProcessFlowModel>highlighted}"
-							focused="{ProcessFlowModel>focused}" />
-					</commons:nodes>
-					<commons:lanes>
-						<commons:ProcessFlowLaneHeader
-							laneId="{ProcessFlowModel>id}"
-							iconSrc="{ProcessFlowModel>icon}"
-							text="{ProcessFlowModel>label}"
-							position="{ProcessFlowModel>position}" />
-					</commons:lanes>
-				</commons:ProcessFlow>
-			</Panel>
+			<uxap:ObjectPageLayout>
+				<uxap:headerTitle>
+					<uxap:ObjectPageDynamicHeaderTitle>
+						<uxap:actions>
+							<uxap:ObjectPageHeaderActionButton icon="sap-icon://decline" type="Transparent" text="Close" tooltip="Close"
+								press="handleNavBack" visible="{=${device>/system/phone}}"/>
+						</uxap:actions>
+						<uxap:expandedHeading>
+							<layout:VerticalLayout>
+								<ObjectStatus title="公司代码" text="3595"/>
+								<ObjectStatus title="月结流程步骤数" text="12"/>
+								<ObjectStatus title="开始月结日期" text="2021-02-28"/>
+								<ObjectStatus title="开始月结时间" text="18：10：10"/>
+							</layout:VerticalLayout>
+						</uxap:expandedHeading>
+					</uxap:ObjectPageDynamicHeaderTitle>
+				</uxap:headerTitle>
+				<!--<Panel>-->
+				<uxap:sections>
+					<uxap:ObjectPageSection showTitle="false">
+						<uxap:subSections>
+							<uxap:ObjectPageSubSection id="personalSectionSS1" title="Connect" titleUppercase="false">
+								<uxap:blocks>
+									<commons:ProcessFlow
+										id="processflow"
+										scrollable="false"
+										foldedCorners="true"
+										nodePress="handleNodePress"
+										nodes="{ProcessFlowModel>/nodes}"
+										lanes="{ProcessFlowModel>/lanes}">
+										<commons:nodes>
+											<commons:ProcessFlowNode
+												laneId="{ProcessFlowModel>lane}"
+												nodeId="{ProcessFlowModel>id}"
+												title="{ProcessFlowModel>title}"
+												titleAbbreviation="{ProcessFlowModel>titleAbbreviation}"
+												children="{ProcessFlowModel>children}"
+												state="{ProcessFlowModel>state}"
+												stateText="{ProcessFlowModel>stateText}"
+												texts="{ProcessFlowModel>texts}"
+												highlighted="{ProcessFlowModel>highlighted}"
+												focused="{ProcessFlowModel>focused}" />
+										</commons:nodes>
+										<commons:lanes>
+											<commons:ProcessFlowLaneHeader
+												laneId="{ProcessFlowModel>id}"
+												iconSrc="{ProcessFlowModel>icon}"
+												text="{ProcessFlowModel>label}"
+												position="{ProcessFlowModel>position}" />
+										</commons:lanes>
+									</commons:ProcessFlow>
+								</uxap:blocks>
+							</uxap:ObjectPageSubSection>
+						</uxap:subSections>
+					</uxap:ObjectPageSection>
+				</uxap:sections>
+				<!--</Panel>-->
+			</uxap:ObjectPageLayout>
 		</semantic:content>
 		<semantic:sendEmailAction>
 			<semantic:SendEmailAction
