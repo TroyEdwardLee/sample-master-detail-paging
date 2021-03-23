@@ -22,8 +22,7 @@
 								descending: false
 							}
 						}" busyIndicatorDelay="{masterView>/delay}"
-						autoPopinMode="true" contextualWidth="Auto"
-						updateFinished="onUpdateFinished">
+						autoPopinMode="true" contextualWidth="Auto">
 						<columns>
 							<Column importance="High">
 								<Text text="公司代码" />

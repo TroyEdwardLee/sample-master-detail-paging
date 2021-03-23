@@ -52,8 +52,8 @@
 			"sapFiori2Adaptation": {
 				"style": true,
 				"collapse": true,
-				"title": true,
-				"back": true,
+				"title": false,
+				"back": false,
 				"hierarchy": false
 			}
 		},
@@ -108,11 +108,12 @@
 					"pattern": "",
 					"name": "master",
 					"target": [
+						"object",
 						"master"
 					]
 				},
 				{
-					"pattern": "Order_Details/{objectId}",
+					"pattern": "Products/{objectId}",
 					"name": "object",
 					"target": [
 						"master",
