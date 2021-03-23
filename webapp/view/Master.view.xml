@@ -41,7 +41,7 @@
 						<items>
 							<ColumnListItem type="Active" press="onSelectionChange">
 								<cells>
-									<Text text="{masterView>CustomerID}" />
+									<Text text="{masterView>OrderID}" />
 									<Text text="{masterView>ShippedDate}" />
 									<ObjectStatus
 										text="进行中"
