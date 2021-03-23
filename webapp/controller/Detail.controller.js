@@ -101,6 +101,7 @@ sap.ui.define([
 			this.oView.getModel("ProcessFlowModel").setProperty(sStatePath, sState);
 			this.oView.getModel("ProcessFlowModel").setProperty(sStateTextPath, sStateText);
 			oProcessFlow.updateModel();
+			oEvent.getSource().getParent().close();
 		},
 
 		/* =========================================================== */

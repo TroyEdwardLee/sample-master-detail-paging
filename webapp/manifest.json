@@ -98,7 +98,6 @@
 				"controlAggregation": "detailPages",
 				"bypassed": {
 					"target": [
-						"master",
 						"notFound"
 					]
 				},
@@ -109,7 +108,6 @@
 					"pattern": "",
 					"name": "master",
 					"target": [
-						"object",
 						"master"
 					]
 				},
