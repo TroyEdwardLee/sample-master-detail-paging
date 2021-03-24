@@ -41,13 +41,13 @@
       "description": "SAPUI5 Test Resources"
     },
     {
-      "path": "/V3/Northwind/Northwind.svc",
+      "path": "/northwind",
       "target": {
         "type": "destination",
         "name": "Northwind",
         "entryPath": "/V3/Northwind/Northwind.svc"
       },
-      "description": "Northwind"
+      "description": "Northwind OData Service"
     }
   ],
   "welcomeFile": "/webapp/test/flpSandbox.html",
