@@ -1,18 +1,69 @@
 <mvc:View controllerName="sample.master.detail.sample-master-detail-paging.controller.Master" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:micro="sap.suite.ui.microchart"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
-	<semantic:MasterPage id="idMasterPage" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="true" busyIndicatorDelay="0">
-		<semantic:subHeader>
+	xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:micro="sap.suite.ui.microchart" xmlns:f="sap.f"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:sv="sap.ui.comp.smartvariants" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<semantic:MasterPage id="idMasterPage" title="{masterView>/title}" navButtonPress="onNavBack" showNavButton="false" busyIndicatorDelay="0">
+		<!--<semantic:subHeader>
 			<Bar id="headerBar">
 				<contentMiddle>
 					<SearchField id="searchField" showRefreshButton="{= !${device>/support/touch} }" tooltip="{i18n>masterSearchTooltip}" width="100%"
 						search="onSearch"></SearchField>
 				</contentMiddle>
 			</Bar>
-		</semantic:subHeader>
+		</semantic:subHeader>-->
 		<semantic:content>
-			<Page showHeader="false">
-				<content>
+			<f:DynamicPage id="dynamicPageId" headerExpanded="true">
+				<f:title>
+					<f:DynamicPageTitle>
+						<f:heading>
+							<sv:SmartVariantManagement id="__YJLCJKVariant01"
+								persistencyKey="YJLCJKFilterPersistencyKey" showShare="true"
+								showExecuteOnSelection="true" entitySet="Orders"/>
+						</f:heading>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:header>
+					<f:DynamicPageHeader pinnable="true">
+						<f:content>
+							<smartFilterBar:SmartFilterBar id="smartFilterBar" search="onSearch"
+								smartVariant="__YJLCJKVariant01" useToolbar="false" entitySet="Orders"
+								persistencyKey="YJLCJKFilterPersistencyKey.FilterBar"
+								assignedFiltersChanged="onAssignedFiltersChanged" enableBasicSearch="false" basicSearchFieldName="OrderID">
+								<smartFilterBar:controlConfiguration>
+									<!--<smartFilterBar:ControlConfiguration
+										key="MyOwnFilterField" index="1" label="Custom Filter Field"
+										groupId="_BASIC" width="300px" mandatory="mandatory"
+										visibleInAdvancedArea="true">
+										<smartFilterBar:customControl>
+											<Select id="foo" customData:hasValue="true">
+												<core:Item key="1" text="ONE"/>
+												<core:Item key="2" text="TWO"/>
+												<core:Item key="3" text="THREE"/>
+											</Select>
+										</smartFilterBar:customControl>
+									</smartFilterBar:ControlConfiguration>-->
+									<smartFilterBar:ControlConfiguration
+										key="OrderID" label="Order ID" visibleInAdvancedArea="true">
+									</smartFilterBar:ControlConfiguration>
+									<smartFilterBar:ControlConfiguration
+										key="CustomerID" label="Customer ID" visibleInAdvancedArea="true">
+									</smartFilterBar:ControlConfiguration>
+									<smartFilterBar:ControlConfiguration
+										key="OrderDate" label="Order Date" visibleInAdvancedArea="true">
+									</smartFilterBar:ControlConfiguration>
+								</smartFilterBar:controlConfiguration>
+								<smartFilterBar:groupConfiguration>
+									<smartFilterBar:GroupConfiguration
+											key="Orders" label="Order">
+									</smartFilterBar:GroupConfiguration>
+								</smartFilterBar:groupConfiguration>
+								<smartFilterBar:layoutData>
+									<FlexItemData shrinkFactor="0"/>
+								</smartFilterBar:layoutData>
+							</smartFilterBar:SmartFilterBar>
+						</f:content>
+					</f:DynamicPageHeader>
+				</f:header>
+				<f:content>
 					<PullToRefresh id="pullToRefresh" visible="{device>/support/touch}" refresh="onRefresh"/>
 					<!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" {= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}-->
 					<Table id="list" items="{
@@ -68,8 +119,8 @@
 							<ObjectListItem type="Active" press="onSelectionChange" title="{masterView>OrderID}"></ObjectListItem>
 						</items>
 					</List>-->
-				</content>
-				<footer>
+				</f:content>
+				<!--<footer>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
 						<Button icon="sap-icon://navigation-left-arrow" tooltip="Previous" press="handlePressPreviousPage"
@@ -77,8 +128,15 @@
 						<Button icon="sap-icon://navigation-right-arrow" tooltip="Next" press="handlePressNextPage"
 							enabled="{=${masterView>/bNextBtnEnabled} &amp;&amp; ${masterView>/iOrdersCount} !== 0}"/>
 					</OverflowToolbar>
-				</footer>
-			</Page>
+				</footer>-->
+			</f:DynamicPage>
 		</semantic:content>
+		<semantic:customFooterContent>
+			<ToolbarSpacer/>
+			<Button icon="sap-icon://navigation-left-arrow" tooltip="Previous" press="handlePressPreviousPage"
+				enabled="{=${masterView>/iSkip} !== 0 &amp;&amp; ${masterView>/iOrdersCount} !== 0}"/>
+			<Button icon="sap-icon://navigation-right-arrow" tooltip="Next" press="handlePressNextPage"
+				enabled="{=${masterView>/bNextBtnEnabled} &amp;&amp; ${masterView>/iOrdersCount} !== 0}"/>
+		</semantic:customFooterContent>
 	</semantic:MasterPage>
 </mvc:View>

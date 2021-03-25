@@ -45,7 +45,7 @@
       "target": {
         "type": "destination",
         "name": "Northwind",
-        "entryPath": "/V3/Northwind/Northwind.svc"
+        "entryPath": "/V2/Northwind/Northwind.svc"
       },
       "description": "Northwind OData Service"
     }
